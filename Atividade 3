@@ -1,0 +1,71 @@
+## ======= QUESTÃO 3 =======
+
+## ======= 1 =======
+DELIMITER \\
+CREATE PROCEDURE setAlun (
+	mat_aluno INTEGER,
+    cod_curso INTEGER,
+    dat_nasc DATE, 
+    tot_cred INTEGER,
+    mgp DOUBLE,
+    nom_alun VARCHAR (60), 
+    email VARCHAR (30))
+    
+DETERMINISTIC
+    
+BEGIN
+    
+    INSERT INTO Aluno
+    VALUES (mat_aluno, cod_curso, dat_nasc, tot_cred, mgp, nom_alun, email);
+    
+    SELECT nom_alun
+    AS Nome
+    FROM Aluno
+    ORDER BY mat_aluno
+    DESC LIMIT 1;
+    
+END
+\\
+
+CALL setAlun('0', 5, '2003-04-03', 90, 8.5, 'Arllon Fraga', 'arllon.fraga@gmail.com');
+SELECT * FROM Aluno;
+
+## ======= 2 =======
+DELIMITER //
+CREATE PROCEDURE acumulo()
+BEGIN
+declare contador tinyint unsigned default 1;
+declare str varchar(30) default "";
+WHILE contador < 6 DO
+	set str = concat(str, contador, ",");
+    SET contador = contador + 1;
+END WHILE;
+select str;
+END//
+DELIMITER ;
+
+CALL acumulo();
+
+## ======= 3 =======
+DELIMITER $$
+CREATE PROCEDURE contador_repeat(limite TINYINT UNSIGNED)
+
+BEGIN
+  DECLARE cont INT;
+  DECLARE result VARCHAR(50);
+    SET cont = 1 ;
+        SET result = '';
+      
+      REPEAT
+            SET result = CONCAT(result, cont, ', ');
+            SET cont = cont + 1;
+            UNTIL cont = 10
+            END REPEAT;
+            
+     SELECT result;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE contador_repeat
+
+CALL contador_repeat(1);
